@@ -8,10 +8,21 @@ const typeDefs = gql`
     wish(id: Int!): Wish!
   }
 
+  type Mutation {
+    createUser(username: String!, email: String!, password: String!): User!
+    createWish(
+      title: String!
+      description: String
+      link: String
+      UserId: Int!
+    ): Wish!
+  }
+
   type User {
     id: Int!
     username: String!
     password: String!
+    email: String!
     wishes: [Wish]
   }
 
@@ -19,6 +30,7 @@ const typeDefs = gql`
     id: Int!
     title: String!
     description: String
+    imageUrl: String
     user: User!
   }
 `

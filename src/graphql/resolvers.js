@@ -13,6 +13,27 @@ const resolvers = {
       return models.Wish.findByPk(id)
     },
   },
+  Mutation: {
+    async createUser(parent, { username, password, email }, { models }) {
+      return models.User.create({
+        username,
+        password,
+        email,
+      })
+    },
+    async createWish(
+      parent,
+      { title, description, imageUrl, UserId },
+      { models },
+    ) {
+      return models.Wish.create({
+        title,
+        description,
+        imageUrl,
+        UserId,
+      })
+    },
+  },
   User: {
     async wishes(parent, args, { models }) {
       return models.Wish.findAll({
