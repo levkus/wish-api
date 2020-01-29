@@ -6,16 +6,16 @@ module.exports = {
       'Wishes',
       [
         {
-          title: 'wish1',
+          title: 'Хотелка админа',
           description: 'description1',
           UserId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: 'wish2',
+          title: 'Хотелка ночи',
           description: 'description2',
-          UserId: 1,
+          UserId: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

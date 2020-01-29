@@ -16,6 +16,7 @@ const typeDefs = gql`
       link: String
       UserId: Int!
     ): Wish!
+    takeWish(id: Int!, GiverId: Int!): Wish!
   }
 
   type User {
@@ -24,6 +25,7 @@ const typeDefs = gql`
     password: String!
     email: String!
     wishes: [Wish]
+    presents: [Wish]
   }
 
   type Wish {
@@ -32,6 +34,7 @@ const typeDefs = gql`
     description: String
     imageUrl: String
     user: User!
+    giver: User
   }
 `
 module.exports = typeDefs

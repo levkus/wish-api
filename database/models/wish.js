@@ -10,7 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     {},
   )
   Wish.associate = function(models) {
-    Wish.belongsTo(models.User)
+    Wish.belongsTo(models.User, {
+      foreignKey: 'UserId',
+    })
+    Wish.belongsTo(models.User, {
+      foreignKey: 'GiverId',
+    })
     // associations can be defined here
   }
   return Wish

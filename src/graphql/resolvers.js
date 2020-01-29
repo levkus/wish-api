@@ -33,6 +33,17 @@ const resolvers = {
         UserId,
       })
     },
+    async takeWish(parent, { id, GiverId }, { models }) {
+      await models.Wish.update(
+        { GiverId },
+        {
+          where: {
+            id,
+          },
+        },
+      )
+      return models.Wish.findByPk(id)
+    },
   },
   User: {
     async wishes(parent, args, { models }) {
@@ -42,10 +53,20 @@ const resolvers = {
         },
       })
     },
+    async presents(parent, args, { models }) {
+      return models.Wish.findAll({
+        where: {
+          GiverId: parent.id,
+        },
+      })
+    },
   },
   Wish: {
     async user(parent, args, { models }) {
       return models.User.findByPk(parent.UserId)
+    },
+    async giver(parent, args, { models }) {
+      return models.User.findByPk(parent.GiverId)
     },
   },
 }
