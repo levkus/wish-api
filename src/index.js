@@ -2,13 +2,12 @@ require('dotenv').config()
 
 const express = require('express')
 const { ApolloServer } = require('apollo-server-express')
-const { sequelize } = require('../models/index')
-const models = require('../models')
+const models = require('../database/models')
 const typeDefs = require('./graphql/typeDefs')
 const resolvers = require('./graphql/resolvers')
 
 console.clear()
-sequelize.authenticate().then(() => {
+models.sequelize.authenticate().then(() => {
   console.log('database connection established')
 })
 
