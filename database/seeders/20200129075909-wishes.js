@@ -6,15 +6,28 @@ module.exports = {
       'Wishes',
       [
         {
-          title: 'Хотелка админа',
-          description: 'description1',
+          title: 'Ableton Push 2',
+          description: 'Контроллер для Ableton Live',
           UserId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: 'Хотелка ночи',
-          description: 'description2',
+          title: 'iPhone 11 Pro',
+          UserId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          title: 'Зеркалка',
+          description: 'Зеркальный фотоаппарат, чтобы фотать себя красивую',
+          UserId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          title: 'Elgato KeyLight',
+          description: 'Освещение для стримов',
           UserId: 2,
           createdAt: new Date(),
           updatedAt: new Date(),

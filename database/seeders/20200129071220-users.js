@@ -6,15 +6,17 @@ module.exports = {
       'Users',
       [
         {
-          username: 'admin',
-          password: '1234',
-          email: 'admin@admin.com',
+          username: 'starpact',
+          password:
+            '$2b$10$p7IRYOfgoyQt4o/qfwLKpuW3X7aGBsLVjK/ysNJQr7BNT/oxvGWoq',
+          email: 'levkus@gmail.com',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           username: 'noch212',
-          password: '1234',
+          password:
+            '$2b$10$p7IRYOfgoyQt4o/qfwLKpuW3X7aGBsLVjK/ysNJQr7BNT/oxvGWoq',
           email: 'noch212@mail.ru',
           createdAt: new Date(),
           updatedAt: new Date(),

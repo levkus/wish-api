@@ -1,5 +1,14 @@
+const { authenticated } = require('../auth')
+require('dotenv').config()
+const bcrypt = require('bcrypt')
+const jsonwebtoken = require('jsonwebtoken')
+
 const resolvers = {
   Query: {
+    me: authenticated(async (root, args, { models, user }) => {
+      return models.User.findOne({ where: { username: user.username } })
+    }),
+
     async users(parent, args, { models }) {
       return models.User.findAll()
     },
@@ -14,12 +23,35 @@ const resolvers = {
     },
   },
   Mutation: {
-    async createUser(parent, { username, password, email }, { models }) {
-      return models.User.create({
+    async signUp(parent, { username, password, email }, { models }) {
+      const user = await models.User.create({
         username,
-        password,
+        password: await bcrypt.hash(password, 10),
         email,
       })
+
+      return jsonwebtoken.sign(
+        { id: user.id, username: user.username },
+        process.env.JWT_SECRET,
+        { expiresIn: '1y' },
+      )
+    },
+    async login(parent, { username, password }, { models }) {
+      const user = await models.User.findOne({ where: { username } })
+      if (!user) {
+        throw new Error('Haha, fuck you, i dont know you!')
+      }
+      const valid = await bcrypt.compare(password, user.password)
+
+      if (!valid) {
+        throw new Error('Haha, your password sucks!')
+      }
+
+      return jsonwebtoken.sign(
+        { id: user.id, username: user.username },
+        process.env.JWT_SECRET,
+        { expiresIn: '1d' },
+      )
     },
     async createWish(
       parent,
