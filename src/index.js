@@ -20,7 +20,7 @@ const server = new ApolloServer({
   context: ({ req }) => {
     return {
       models,
-      user: req.user,
+      currentUser: req.user,
     }
   },
 })

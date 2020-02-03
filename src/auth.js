@@ -1,6 +1,6 @@
 const authenticated = next => (root, args, context, info) => {
-  if (!context.user) {
-    throw new Error(`Unauthenticated!`)
+  if (!context.currentUser) {
+    throw new Error(`Fuck off!`)
   }
 
   return next(root, args, context, info)

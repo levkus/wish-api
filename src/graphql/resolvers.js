@@ -5,10 +5,9 @@ const jsonwebtoken = require('jsonwebtoken')
 
 const resolvers = {
   Query: {
-    me: authenticated(async (root, args, { models, user }) => {
-      return models.User.findOne({ where: { username: user.username } })
+    me: authenticated(async (root, args, { models, currentUser }) => {
+      return models.User.findOne({ where: { username: currentUser.username } })
     }),
-
     async users(parent, args, { models }) {
       return models.User.findAll()
     },
