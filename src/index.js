@@ -17,7 +17,7 @@ const path = '/api'
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => {
+  context: async ({ req }) => {
     return {
       models,
       currentUser: req.user,
@@ -31,6 +31,12 @@ app.use(
     secret: process.env.JWT_SECRET,
     credentialsRequired: false,
   }),
+  (err, req, res, next) => {
+    if (err.code === 'invalid_token') {
+      res.status(401)
+    }
+    next()
+  },
 )
 
 server.applyMiddleware({ app, path })
