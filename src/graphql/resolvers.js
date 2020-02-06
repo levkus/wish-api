@@ -23,6 +23,14 @@ const resolvers = {
   },
   Mutation: {
     async signUp(parent, { username, password, email }, { models }) {
+      const userExists = await models.User.findOne({
+        where: {
+          username,
+        },
+      })
+      if (userExists) {
+        throw new Error('Username already taken.')
+      }
       const user = await models.User.create({
         username,
         password: await bcrypt.hash(password, 10),
@@ -32,7 +40,7 @@ const resolvers = {
       return jsonwebtoken.sign(
         { id: user.id, username: user.username },
         process.env.JWT_SECRET,
-        { expiresIn: '1y' },
+        { expiresIn: '1d' },
       )
     },
     async login(parent, { username, password }, { models }) {
