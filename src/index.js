@@ -7,7 +7,7 @@ const resolvers = require('./graphql/resolvers')
 const jwt = require('express-jwt')
 
 console.clear()
-models.sequelize.authenticate().then(() => {
+models.sequelize.authenticate().then(async () => {
   console.log('database connection established')
 })
 

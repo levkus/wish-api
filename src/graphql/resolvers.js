@@ -2,6 +2,8 @@ const { authenticated } = require('../auth')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require('jsonwebtoken')
+const { uploadFile } = require('../services/file')
+const uuidv4 = require('uuid/v4')
 
 const resolvers = {
   Query: {
@@ -82,6 +84,18 @@ const resolvers = {
         },
       )
       return models.Wish.findByPk(id)
+    },
+    async singleUpload(parent, args) {
+      const file = await args.file
+      const { createReadStream } = file
+      const fileStream = createReadStream()
+
+      const id = uuidv4()
+      await uploadFile({
+        Key: id,
+        Body: fileStream,
+      })
+      return id
     },
   },
   User: {

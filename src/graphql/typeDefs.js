@@ -16,9 +16,11 @@ const typeDefs = gql`
       title: String!
       description: String
       link: String
+      imageUrl: String
       UserId: Int!
     ): Wish!
     takeWish(id: Int!, GiverId: Int!): Wish!
+    singleUpload(file: Upload!): String!
   }
 
   type User {
@@ -36,6 +38,13 @@ const typeDefs = gql`
     imageUrl: String
     user: User!
     giver: User
+    createdAt: String!
+  }
+
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
   }
 `
 module.exports = typeDefs
