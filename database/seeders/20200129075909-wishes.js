@@ -6,13 +6,6 @@ module.exports = {
       'Wishes',
       [
         {
-          title: 'Ableton Push 2',
-          description: 'Контроллер для Ableton Live',
-          UserId: 1,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
           title: 'iPhone 11 Pro',
           UserId: 1,
           createdAt: new Date(),

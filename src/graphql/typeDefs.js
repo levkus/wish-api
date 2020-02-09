@@ -4,7 +4,7 @@ const typeDefs = gql`
   type Query {
     me: User
     users: [User!]!
-    user(id: Int!): User!
+    user(username: String!): User!
     wishes: [Wish!]!
     wish(id: Int!): Wish!
   }
@@ -19,6 +19,7 @@ const typeDefs = gql`
       imageUrl: String
       UserId: Int!
     ): Wish!
+    deleteWish(id: Int!): Boolean!
     takeWish(id: Int!, GiverId: Int!): Wish!
     singleUpload(file: Upload!): String!
   }
@@ -36,6 +37,9 @@ const typeDefs = gql`
     title: String!
     description: String
     imageUrl: String
+    price: String
+    currency: String
+    priority: Int
     user: User!
     giver: User
     createdAt: String!

@@ -2,7 +2,7 @@ const { authenticated } = require('../auth')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require('jsonwebtoken')
-const { uploadFile } = require('../services/file')
+const { uploadFile, getFileUrl } = require('../services/file')
 const uuidv4 = require('uuid/v4')
 
 const resolvers = {
@@ -13,8 +13,8 @@ const resolvers = {
     async users(parent, args, { models }) {
       return models.User.findAll()
     },
-    async user(parent, { id }, { models }) {
-      return models.User.findByPk(id)
+    async user(parent, { username }, { models }) {
+      return models.User.findOne({ where: { username } })
     },
     async wishes(parent, args, { models }) {
       return models.Wish.findAll()
@@ -64,15 +64,23 @@ const resolvers = {
     },
     async createWish(
       parent,
-      { title, description, imageUrl, UserId },
+      { title, description, imageUrl, price, currency, priority, UserId },
       { models },
     ) {
       return models.Wish.create({
         title,
         description,
         imageUrl,
+        price,
+        currency,
+        priority,
         UserId,
       })
+    },
+    async deleteWish(parent, { id }, { models }) {
+      const wish = await models.Wish.findOne({ where: { id } })
+      wish.destroy()
+      return true
     },
     async takeWish(parent, { id, GiverId }, { models }) {
       await models.Wish.update(
@@ -87,15 +95,18 @@ const resolvers = {
     },
     async singleUpload(parent, args) {
       const file = await args.file
+      const extension = file.filename.split('.').slice(-1)[0]
+
       const { createReadStream } = file
       const fileStream = createReadStream()
 
       const id = uuidv4()
+      const newFilename = `${id}.${extension}`
       await uploadFile({
-        Key: id,
+        Key: newFilename,
         Body: fileStream,
       })
-      return id
+      return getFileUrl(newFilename)
     },
   },
   User: {

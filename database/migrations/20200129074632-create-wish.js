@@ -17,6 +17,15 @@ module.exports = {
       imageUrl: {
         type: Sequelize.STRING,
       },
+      price: {
+        type: Sequelize.STRING,
+      },
+      currency: {
+        type: Sequelize.STRING,
+      },
+      priority: {
+        type: Sequelize.INTEGER,
+      },
       UserId: {
         type: Sequelize.INTEGER,
         allowNull: false,
