@@ -21,7 +21,7 @@ const getFileUrl = async Key => {
     Key,
   })
 
-  return url
+  return url.split('?')[0]
 }
 
 module.exports = {
