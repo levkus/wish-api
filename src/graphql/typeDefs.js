@@ -30,6 +30,7 @@ const typeDefs = gql`
     email: String!
     wishes: [Wish]
     presents: [Wish]
+    friends: [User]
   }
 
   type Wish {

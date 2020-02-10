@@ -21,6 +21,30 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          username: 'adm1n',
+          password:
+            '$2b$10$p7IRYOfgoyQt4o/qfwLKpuW3X7aGBsLVjK/ysNJQr7BNT/oxvGWoq',
+          email: 'admin@mail.ru',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          username: 'kassad',
+          password:
+            '$2b$10$p7IRYOfgoyQt4o/qfwLKpuW3X7aGBsLVjK/ysNJQr7BNT/oxvGWoq',
+          email: 'kassad@mail.ru',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          username: 'magun',
+          password:
+            '$2b$10$p7IRYOfgoyQt4o/qfwLKpuW3X7aGBsLVjK/ysNJQr7BNT/oxvGWoq',
+          email: 'magun@mail.ru',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {},
     )

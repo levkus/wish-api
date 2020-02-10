@@ -110,6 +110,33 @@ const resolvers = {
     },
   },
   User: {
+    async friends(parent, args, { models }) {
+      const friendships = await models.Friendship.findAll({
+        where: {
+          [models.Sequelize.Op.or]: [
+            {
+              RequesterId: parent.id,
+            },
+            {
+              AddresseeId: parent.id,
+            },
+          ],
+          status: 'accepted',
+        },
+      })
+      const friendIds = friendships.map(friendship => {
+        const { RequesterId, AddresseeId } = friendship
+        if (RequesterId === parent.id) {
+          return AddresseeId
+        }
+        return RequesterId
+      })
+      return models.User.findAll({
+        where: {
+          id: friendIds,
+        },
+      })
+    },
     async wishes(parent, args, { models }) {
       return models.Wish.findAll({
         where: {
