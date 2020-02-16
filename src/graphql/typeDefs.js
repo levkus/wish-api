@@ -3,10 +3,10 @@ const { gql } = require('apollo-server-express')
 const typeDefs = gql`
   type Query {
     me: User
-    users: [User!]!
+    users(subString: String!): [User!]!
     user(username: String!): User!
-    wishes: [Wish!]!
     wish(id: Int!): Wish!
+    friendshipStatus(username: String!): Friendship
   }
 
   type Mutation {
@@ -22,6 +22,10 @@ const typeDefs = gql`
     deleteWish(id: Int!): Boolean!
     takeWish(id: Int!, GiverId: Int!): Wish!
     singleUpload(file: Upload!): String!
+    requestFriendship(ResponderId: Int!): Friendship!
+    acceptFriendshipRequest(id: Int!): Friendship!
+    rejectFriendshipRequest(id: Int!): Friendship!
+    deleteFriendshipRequest(id: Int!): String!
   }
 
   type User {
@@ -30,6 +34,7 @@ const typeDefs = gql`
     email: String!
     wishes: [Wish]
     presents: [Wish]
+    friendshipRequests(status: String!): [Friendship]
     friends: [User]
   }
 
@@ -50,6 +55,13 @@ const typeDefs = gql`
     filename: String!
     mimetype: String!
     encoding: String!
+  }
+
+  type Friendship {
+    id: Int!
+    requester: User!
+    responder: User!
+    status: String!
   }
 `
 module.exports = typeDefs

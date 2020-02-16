@@ -3,39 +3,39 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'Friendships',
+      'FriendshipRequests',
       [
         {
           RequesterId: 1,
-          AddresseeId: 2,
+          ResponderId: 2,
           status: 'accepted',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           RequesterId: 1,
-          AddresseeId: 3,
+          ResponderId: 3,
           status: 'accepted',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           RequesterId: 1,
-          AddresseeId: 4,
-          status: 'requested',
+          ResponderId: 4,
+          status: 'pending',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           RequesterId: 2,
-          AddresseeId: 4,
-          status: 'declined',
+          ResponderId: 4,
+          status: 'rejected',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           RequesterId: 5,
-          AddresseeId: 1,
+          ResponderId: 1,
           status: 'accepted',
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -46,6 +46,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Friendships', null, {})
+    return queryInterface.bulkDelete('FriendshipRequests', null, {})
   },
 }
