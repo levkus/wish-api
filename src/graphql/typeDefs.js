@@ -20,7 +20,8 @@ const typeDefs = gql`
       UserId: Int!
     ): Wish!
     deleteWish(id: Int!): Boolean!
-    takeWish(id: Int!, GiverId: Int!): Wish!
+    takeWish(id: Int!): Wish!
+    abandonWish(id: Int!): Wish!
     singleUpload(file: Upload!): String!
     requestFriendship(ResponderId: Int!): Friendship!
     acceptFriendshipRequest(id: Int!): Friendship!
@@ -32,10 +33,13 @@ const typeDefs = gql`
     id: Int!
     username: String!
     email: String!
+    color: String!
     wishes: [Wish]
     presents: [Wish]
     friendshipRequests(status: String!): [Friendship]
     friends: [User]
+    incomingFriendshipRequests: [User]
+    outgoingFriendshipRequests: [User]
   }
 
   type Wish {

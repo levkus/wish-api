@@ -5,6 +5,24 @@ const jsonwebtoken = require('jsonwebtoken')
 const { uploadFile, getFileUrl } = require('../services/file')
 const uuidv4 = require('uuid/v4')
 
+const colors = [
+  'f44336',
+  'E91E63',
+  '9C27B0',
+  '673AB7',
+  '3F51B5',
+  '2196F3',
+  '03A9F4',
+  '00BCD4',
+  '009688',
+  '4CAF50',
+  '8BC34A',
+  'FF9800',
+  'FF5722',
+  '795548',
+  '607D8B',
+]
+
 const resolvers = {
   Query: {
     me: authenticated(async (root, args, { models, currentUser }) => {
@@ -43,8 +61,10 @@ const resolvers = {
 
       return models.FriendshipRequest.findOne({
         where: {
-          RequesterId: me.id,
-          ResponderId: friend.id,
+          [models.Sequelize.Op.or]: [
+            { RequesterId: me.id, ResponderId: friend.id },
+            { RequesterId: friend.id, ResponderId: me.id },
+          ],
         },
       })
     },
@@ -59,8 +79,12 @@ const resolvers = {
       if (userExists) {
         throw new Error('Username already taken.')
       }
+      const color = `#${
+        colors[Math.floor(Math.random() * (colors.length - 0 + 1)) + 0]
+      }`
       const user = await models.User.create({
         username,
+        color,
         password: await bcrypt.hash(password, 10),
         email,
       })
@@ -108,16 +132,34 @@ const resolvers = {
       wish.destroy()
       return true
     },
-    async takeWish(parent, { id, GiverId }, { models }) {
+    async takeWish(parent, { id }, { models, currentUser }) {
+      const me = await models.User.findOne({
+        where: {
+          username: currentUser.username,
+        },
+      })
       await models.Wish.update(
-        { GiverId },
+        { GiverId: me.id },
         {
           where: {
             id,
           },
         },
       )
-      return models.Wish.findByPk(id)
+      const wish = await models.Wish.findByPk(id)
+      return wish
+    },
+    async abandonWish(parent, { id }, { models, currentUser }) {
+      await models.Wish.update(
+        { GiverId: null },
+        {
+          where: {
+            id,
+          },
+        },
+      )
+      const wish = await models.Wish.findByPk(id)
+      return wish
     },
     async singleUpload(parent, args) {
       const file = await args.file
@@ -158,7 +200,7 @@ const resolvers = {
       )
     },
     async acceptFriendshipRequest(parent, { id }, { models }) {
-      return models.FriendshipRequest.update(
+      await models.FriendshipRequest.update(
         {
           status: 'accepted',
         },
@@ -168,9 +210,10 @@ const resolvers = {
           },
         },
       )
+      return models.FriendshipRequest.findByPk(id)
     },
     async rejectFriendshipRequest(parent, { id }, { models }) {
-      return models.FriendshipRequest.update(
+      await models.FriendshipRequest.update(
         {
           status: 'rejected',
         },
@@ -180,6 +223,7 @@ const resolvers = {
           },
         },
       )
+      return models.FriendshipRequest.findByPk(id)
     },
     async deleteFriendshipRequest(parent, { id }, { models }) {
       const friendshipRequest = await models.FriendshipRequest.findOne({
@@ -217,11 +261,42 @@ const resolvers = {
         where: {
           id: friendIds,
         },
+        order: [['username', 'ASC']],
+      })
+    },
+    async incomingFriendshipRequests(parent, args, { models }) {
+      const friendshipRequests = await models.FriendshipRequest.findAll({
+        where: {
+          ResponderId: parent.id,
+          status: 'pending',
+        },
+      })
+      const friendIds = friendshipRequests.map(
+        friendship => friendship.RequesterId,
+      )
+      return models.User.findAll({
+        where: {
+          id: friendIds,
+        },
+      })
+    },
+    async outgoingFriendshipRequests(parent, args, { models }) {
+      const friendshipRequests = await models.FriendshipRequest.findAll({
+        where: {
+          RequesterId: parent.id,
+          status: 'pending',
+        },
+      })
+      const friendIds = friendshipRequests.map(
+        friendship => friendship.ResponderId,
+      )
+      return models.User.findAll({
+        where: {
+          id: friendIds,
+        },
       })
     },
     async friendshipRequests(parent, { status }, { models, currentUser }) {
-      console.log(status)
-
       return models.FriendshipRequest.findAll({
         where: {
           [models.Sequelize.Op.or]: [
@@ -241,6 +316,7 @@ const resolvers = {
         where: {
           UserId: parent.id,
         },
+        order: [['id', 'ASC']],
       })
     },
     async presents(parent, args, { models }) {
