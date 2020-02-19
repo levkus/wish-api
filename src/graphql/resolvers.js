@@ -114,17 +114,25 @@ const resolvers = {
     },
     async createWish(
       parent,
-      { title, description, imageUrl, price, currency, priority, UserId },
-      { models },
+      { title, description, imageUrl, link, price, currency, priority },
+      { models, currentUser },
     ) {
+      const me = await models.User.findOne({
+        where: {
+          username: currentUser.username,
+        },
+      })
+      console.log({ price, priority, link })
+
       return models.Wish.create({
         title,
         description,
         imageUrl,
+        link,
         price,
         currency,
         priority,
-        UserId,
+        UserId: me.id,
       })
     },
     async deleteWish(parent, { id }, { models }) {
@@ -138,15 +146,10 @@ const resolvers = {
           username: currentUser.username,
         },
       })
-      await models.Wish.update(
-        { GiverId: me.id },
-        {
-          where: {
-            id,
-          },
-        },
-      )
       const wish = await models.Wish.findByPk(id)
+      if (!wish.GiverId) {
+        await wish.update({ GiverId: me.id })
+      }
       return wish
     },
     async abandonWish(parent, { id }, { models, currentUser }) {

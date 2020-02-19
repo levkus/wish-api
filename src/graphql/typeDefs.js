@@ -17,7 +17,9 @@ const typeDefs = gql`
       description: String
       link: String
       imageUrl: String
-      UserId: Int!
+      price: String
+      currency: String
+      priority: Int
     ): Wish!
     deleteWish(id: Int!): Boolean!
     takeWish(id: Int!): Wish!
@@ -47,6 +49,7 @@ const typeDefs = gql`
     title: String!
     description: String
     imageUrl: String
+    link: String
     price: String
     currency: String
     priority: Int

@@ -17,6 +17,9 @@ module.exports = {
       imageUrl: {
         type: Sequelize.STRING,
       },
+      link: {
+        type: Sequelize.STRING,
+      },
       price: {
         type: Sequelize.STRING,
       },
