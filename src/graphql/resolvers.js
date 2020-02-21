@@ -81,9 +81,7 @@ const resolvers = {
       if (userExists) {
         throw new Error('Username already taken.')
       }
-      const color = `#${
-        colors[Math.floor(Math.random() * (colors.length - 0 + 1)) + 0]
-      }`
+      const color = `#${colors[Math.floor(Math.random() * colors.length)]}`
       const user = await models.User.create({
         username,
         color,
