@@ -92,7 +92,7 @@ const resolvers = {
       return jsonwebtoken.sign(
         { id: user.id, username: user.username },
         process.env.JWT_SECRET,
-        { expiresIn: '1d' },
+        { expiresIn: '90d' },
       )
     },
     async login(parent, { username, password }, { models }) {
@@ -109,7 +109,7 @@ const resolvers = {
       return jsonwebtoken.sign(
         { id: user.id, username: user.username },
         process.env.JWT_SECRET,
-        { expiresIn: '1d' },
+        { expiresIn: '90d' },
       )
     },
     createWish: authenticated(
