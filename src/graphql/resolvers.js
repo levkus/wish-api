@@ -136,6 +136,26 @@ const resolvers = {
         })
       },
     ),
+    updateWish: authenticated(
+      async (
+        parent,
+        { id, title, description, imageUrl, link, price, currency, priority },
+        { models, currentUser },
+      ) => {
+        const wish = await models.Wish.findByPk(id)
+        wish.update({
+          title,
+          description,
+          imageUrl,
+          link,
+          price,
+          currency,
+          priority,
+        })
+
+        return wish
+      },
+    ),
     deleteWish: authenticated(async (parent, { id }, { models }) => {
       const wish = await models.Wish.findOne({ where: { id } })
       wish.destroy()

@@ -21,6 +21,16 @@ const typeDefs = gql`
       currency: String
       priority: Int
     ): Wish!
+    updateWish(
+      id: Int!
+      title: String!
+      description: String
+      link: String
+      imageUrl: String
+      price: String
+      currency: String
+      priority: Int
+    ): Wish!
     deleteWish(id: Int!): Boolean!
     takeWish(id: Int!): Wish!
     abandonWish(id: Int!): Wish!
