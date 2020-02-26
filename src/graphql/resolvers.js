@@ -142,7 +142,15 @@ const resolvers = {
         { id, title, description, imageUrl, link, price, currency, priority },
         { models, currentUser },
       ) => {
+        const me = await models.User.findOne({
+          where: {
+            username: currentUser.username,
+          },
+        })
         const wish = await models.Wish.findByPk(id)
+        if (me.id !== wish.user.id) {
+          throw new Error('You can only edit your own wishes')
+        }
         wish.update({
           title,
           description,
