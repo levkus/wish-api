@@ -21,7 +21,7 @@
   "author": "levkus",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-express": "^2.9.16",
+    "apollo-server-express": "^2.14.2",
     "aws-sdk": "^2.614.0",
     "bcrypt": "^3.0.7",
     "cors": "^2.8.5",
