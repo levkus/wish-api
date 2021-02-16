@@ -1,6 +1,6 @@
 const { authenticated } = require('../auth')
 require('dotenv').config()
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt-nodejs')
 const jsonwebtoken = require('jsonwebtoken')
 const { uploadFile, getFileUrl } = require('../services/file')
 const uuidv4 = require('uuid/v4')
